@@ -9,6 +9,8 @@ public class DiveEntry {
 	private Integer depth;
 	private Boolean valid;
 	
+	public DiveEntry() { }
+	
 	public DiveEntry(long id, String name, Integer depth, Boolean valid) {
 		this.setId(id);
 		this.setName(name);
@@ -18,7 +20,7 @@ public class DiveEntry {
 		this.setValid(valid);
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
