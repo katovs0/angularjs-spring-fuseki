@@ -8,7 +8,7 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
-    <context:component-scan base-package="com.xvitcoder.angualrspringapp" />
+    <context:component-scan base-package="com.angualrspringapp" />
 
     <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
         <property name="resourceLoaderPath" value="/WEB-INF/html/"/>

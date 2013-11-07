@@ -3,20 +3,50 @@
 </div>
 <form class="form-horizontal">
     <div class="control-group">
-        <label class="control-label" for="inputEmail">Dive Name</label>
+        
 
         <div class="controls">
+        <label class="control-label" for="inputEmail">Dive Name</label>
             <input type="text" id="inputEmail" ng-model="dive.name" placeholder="Dive Name" required min="2">
+        </div>
+        <div class="controls">
+        <label class="control-label" for="inputEmail">Depth</label>
+            <input class="span3" type="text" id="inputDepth" ng-model="dive.depth" placeholder="Depth" required min="1">
+            <span class="add-on">metres</span>
+        </div>
+        <div class="controls">
+        <label class="control-label" for="inputEmail">Dive Time</label>
+            <input class="span3" type="text" id="inputMinutes" ng-model="dive.minutes" placeholder="Dive Time" required min="1">
+            <span class="add-on">minutes</span>
+        </div>
+
+        <div class="controls">
+        <label class="control-label" for="inputEmail">Air Temp</label>
+            <input type="text" id="inputEmail" ng-model="dive.airTemp" placeholder="Air Temp" required min="0">
+            <span class="add-on">°C</span>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="inputEmail">Depth</label>
+        
 
         <div class="controls">
-
-
-            <input class="span3" type="text" id="inputDepth" ng-model="dive.depth" placeholder="Depth" required min="1">
-            <span class="add-on">metres</span>
+        <label class="control-label" for="inputEmail">Diver</label>
+            <input class="span3" type="text" id="inputDiver" ng-model="dive.diver" placeholder="Diver" required min="1">
+        </div>
+        <div class="controls">
+        <label class="control-label" for="inputEmail">Buddy</label>
+            <input class="span3" type="text" id="inputBuddy" ng-model="dive.buddy" placeholder="Buddy" required min="1">
+        </div>
+        <div class="controls">
+        <label class="control-label" for="inputEmail">Location</label>
+            <input class="span3" type="text" id="inputLocation" ng-model="dive.location" placeholder="Location" required min="1">
+        </div>
+        
+        
+        <div class="controls">
+        <label class="control-label" for="inputEmail">Water Temp</label>
+            <input class="span3" type="text" id="inputDepth" ng-model="dive.waterTemp" placeholder="Water Temp" required min="0">
+            <span class="add-on">°C</span>
         </div>
     </div>
     <div class="control-group">
@@ -44,6 +74,14 @@
             <th style="text-align: center; width: 25px;">Id</th>
             <th style="text-align: center;">Name</th>
             <th style="text-align: center;">Depth</th>
+                        
+            <th style="text-align: center;">location</th>
+            <th style="text-align: center;">diver</th>
+            <th style="text-align: center;">buddy</th>
+            <th style="text-align: center;">minutes</th>
+            <th style="text-align: center;">airTemp</th>
+            <th style="text-align: center;">waterTemp</th>
+            
             <th style="text-align: center;">Valid</th>
             <th style="text-align: center;">Action</th>
         </tr>
@@ -53,6 +91,12 @@
             <td style="text-align: center;">{{dive.id}}</td>
             <td>{{dive.name}}</td>
             <td>{{dive.depth}}</td>
+            <td>{{dive.location}}</td>
+            <td>{{dive.diver}}</td>
+            <td>{{dive.buddy}}</td>
+            <td>{{dive.minutes}} minutes</td>
+            <td>{{dive.airTemp}} °C</td>
+            <td>{{dive.waterTemp}} °C</td>
             <td style="text-align: center;width: 20px;"><span ng-show="dive.valid" class="icon-ok"></span></td>
             <td style="width:100px;text-align: center;">
                 <button class="btn btn-mini btn-danger" ng-click="removeDive(dive.id)">Remove</button>

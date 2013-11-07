@@ -21,6 +21,14 @@ var DiveEntryController = function($scope, $http) {
             $scope.fetchDivesList();
             $scope.dive.name = '';
             $scope.dive.depth = '';
+
+        	$scope.dive.location = '';
+        	$scope.dive.diver = '';
+        	$scope.dive.buddy = '';
+        	$scope.dive.minutes = 0;
+        	$scope.dive.airTemp = 0.0;
+        	$scope.dive.waterTemp = 0.0;
+
             $scope.dive.valid = false;
         }).error(function() {
             $scope.setError('Could not add a new dive');
