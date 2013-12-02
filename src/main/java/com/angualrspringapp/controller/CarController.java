@@ -49,4 +49,10 @@ public class CarController {
     public String getCarPartialPage() {
         return "cars/layout";
     }
+    
+    
+//    @RequestMapping(value = "/autoCompleteCity", method = RequestMethod.POST)
+//    public @ResponseBody void autoCompleteCity() {
+//        carService.autoCompleteCity();
+//    }
 }

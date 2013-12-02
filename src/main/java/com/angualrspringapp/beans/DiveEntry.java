@@ -5,6 +5,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 public class DiveEntry {
 	
 	private Long id;
+	private String idString;
 	private String name;
 	private Integer depth;
 	
@@ -42,6 +43,14 @@ public class DiveEntry {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getIdString() {
+		return idString;
+	}
+
+	public void setIdString(String idString) {
+		this.idString = idString;
 	}
 
 	public String getName() {

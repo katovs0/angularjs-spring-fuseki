@@ -1,10 +1,20 @@
+<div class='container-fluid' ng-controller="CarController">
+        <pre>Model: {{result | json}}</pre>
+        <input type="text" ng-model="result" typeahead="suggestion for suggestion in cities($viewValue)">
+    </div>
+
+<div class='container-fluid' ng-controller="CarController">
+            <pre>Model: {{selected| json}}</pre>
+            <pre>{{states}}</pre>
+            <input type="text" ng-change="onedit()" ng-model="selected" typeahead="state for state in states | filter:$viewValue">
+        </div>
 
 <div class="input-append">
     <input style="width:358px;" class="span2" type="text" ng-model="carName" required min="1" />
-    <button class="btn btn-primary" ng-disabled="!carName" ng-click="addNewCar(carName)">Add Car</button>
+    <button class="btn btn-primary" ng-disabled="!carName" ng-click="addNewCar(carName)">Add Diver</button>
 </div>
 
-<h3>Car List</h3>
+<h3>Divers</h3>
 <div class="alert alert-info" style="width:400px;" ng-show="cars.length == 0">
     No cars found
 </div>
@@ -12,7 +22,7 @@
     <thead>
         <tr>
             <th style="text-align: center; width: 25px;">Action</th>
-            <th style="text-align: center;">Car Name</th>
+            <th style="text-align: center;">Diver Name</th>
         </tr>
     </thead>
     <tbody>
@@ -22,4 +32,4 @@
         </tr>
     </tbody>
 </table>
-<button class="btn btn-danger"  ng-show="cars.length > 1" ng-click="removeAllCars()">Remove All Cars</button>
+<button class="btn btn-danger"  ng-show="cars.length > 1" ng-click="removeAllCars()">Remove All Divers</button>
