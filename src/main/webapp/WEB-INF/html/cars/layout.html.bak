@@ -9,7 +9,7 @@
                 <p><input type="text" id="search" list="carsList" placeholder="Find U.S. State" ></p>
 
  <datalist id="carsList">
-    <option  data-ng-repeat="car in cars" value="{{car}}">
+    <option  data-ng-repeat="car in locs" value="{{car}}">
   </datalist>
 
                 <datalist id="states">

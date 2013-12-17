@@ -1,16 +1,16 @@
 package com.angualrspringapp.controller;
 
-import com.angualrspringapp.service.CarService;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.angualrspringapp.service.CarService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,6 +48,18 @@ public class CarController {
     @RequestMapping("/layout")
     public String getCarPartialPage() {
         return "cars/layout";
+    }
+    
+    @RequestMapping("/locsList.json")
+    public @ResponseBody List<String> getLocsList() {
+    	
+    	List<String> locs = new ArrayList<String>();
+    	
+    	locs.add("London");
+    	locs.add("Mcr");
+    	locs.add("Sofia");
+    	
+        return locs;
     }
     
     

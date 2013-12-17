@@ -38,7 +38,7 @@ var CarController = function($scope, $http) {
     }
 
     $scope.fetchCarsList();
-    $scope.fetchLocsList();
+    
     
 //    $scope.cities = function(cityName) {
 //    return $http.jsonp("http://gd.geobytes.com/AutoCompleteCity?callback=JSON_CALLBACK &filter=US&q="+cityName).then(function(response){
