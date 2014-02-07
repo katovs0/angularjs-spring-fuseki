@@ -32,8 +32,8 @@ var CarController = function($scope, $http) {
     };
     
     $scope.fetchLocsList = function() {
-        $http.get('cars/locslist.json').success(function(locsList){
-            $scope.locs = locsList;
+        $http.get('cars/locationsList.json').success(function(locsList){
+            $scope.locations = locsList;
         });
     }
 

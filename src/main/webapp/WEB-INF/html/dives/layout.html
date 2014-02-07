@@ -39,9 +39,8 @@
         </div>
         <div class="controls">
         <label class="control-label" for="inputEmail">Location</label>
-            <input class="span3" type="text" id="inputLocation" ng-model="dive.location" placeholder="Location" required min="1">
+            <input class="span3" type="text" id="inputLocation" list="locsList" ng-model="dive.location" placeholder="Location" required min="1">
         </div>
-        
         
         <div class="controls">
         <label class="control-label" for="inputEmail">Water Temp</label>
@@ -71,7 +70,7 @@
 <table class="table table-bordered table-striped" ng-show="dives.length > 0">
     <thead>
         <tr>
-            <th style="text-align: center; width: 25px;">Id</th>
+<!--             <th style="text-align: center; width: 25px;">Id</th> -->
             <th style="text-align: center;">Name</th>
             <th style="text-align: center;">Depth</th>
                         
@@ -88,7 +87,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="dive in dives | orderBy:predicate">
-            <td style="text-align: center;">{{dive.id}}</td>
+<!--             <td style="text-align: center;">{{dive.idString}}</td> -->
             <td>{{dive.name}}</td>
             <td>{{dive.depth}}</td>
             <td>{{dive.location}}</td>
@@ -99,10 +98,15 @@
             <td>{{dive.waterTemp}} °C</td>
             <td style="text-align: center;width: 20px;"><span ng-show="dive.valid" class="icon-ok"></span></td>
             <td style="width:100px;text-align: center;">
-                <button class="btn btn-mini btn-danger" ng-click="removeDive(dive.id)">Remove</button>
+                <button class="btn btn-mini btn-danger" ng-click="removeDive(dive.idString)">Remove</button>
                 <button class="btn btn-mini btn-success" ng-click="editDive(dive)">Edit</button>
             </td>
         </tr>
     </tbody>
 </table>
 <button class="btn btn-danger" ng-show="dives.length > 1" ng-click="removeAllDives()">Remove All dives</button>
+
+
+<datalist id="locsList">
+    <option  data-ng-repeat="location in locations" value="{{location}}">
+</datalist>

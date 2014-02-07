@@ -28,8 +28,10 @@ public class FusekiAdapter {
 	private static String EXTERNAL_SOURCE = "http://dbpedia.org";
 	private static String RDF_STORE = "http://localhost:3030/ds";
 	private static String diveURI = "http://scubadive.networld.to/dive.rdf#";
+	private static String RDF_SYNTAX = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 	
 	private static DiveEntryResultSetMapper diveEntryMapper = DiveEntryResultSetMapper.getInstance();
+	private static LocationsResultSetMapper locationsMapper = LocationsResultSetMapper.getInstance();
 	private static DatasetGraphAccessorHTTP updater = new DatasetGraphAccessorHTTP(RDF_STORE + "/data");
 	private static DatasetAdapter adapter = new DatasetAdapter (updater);
 	
@@ -59,44 +61,87 @@ public class FusekiAdapter {
     			
     	System.out.println("### Getting the default MODEL");
     	LOG.info("### Getting the default MODEL");
-    	Model defaultModel = adapter.getModel();
+    	
+//    	Model defaultModel = adapter.getModel();
+//    	LOG.info("### Got the default MODEL");
     	
     	Model diveM = ModelFactory.createDefaultModel();
+    	LOG.info("### Created a default MODEL");
 
     	
     
+    	UUID uniqueId;
     	
-    	Resource dive1 = diveM.createResource(diveURI + "Dive/" + UUID.randomUUID() + ":" + diveEntry.getId())
+    	//Refactoring idea: http://pic.dhe.ibm.com/infocenter/db2luw/v10r1/index.jsp?topic=%2Fcom.ibm.swg.im.dbclient.rdf.doc%2Fdoc%2Fc0060696.html
+    	Resource dive1 = diveM.createResource(diveURI + "Dive/" + (uniqueId=UUID.randomUUID()) + ":" + diveEntry.getId())
+    							.addProperty(diveM.createProperty(RDF_SYNTAX, "type"), diveURI + "Dive")
+//    							.addProperty(diveM.createProperty(RDF_SYNTAX, "ID"), uniqueId.toString())
+    							.addProperty(diveM.createProperty(diveURI, "id"), uniqueId.toString())
     							.addProperty(diveM.createProperty(diveURI, "diver"), diveEntry.getDiver())
     							.addProperty(diveM.createProperty(diveURI, "name"), diveEntry.getName())
     							.addProperty(diveM.createProperty(diveURI, "maxdeep"), ResourceFactory.createTypedLiteral(diveEntry.getDepth()))
     							.addProperty(diveM.createProperty(diveURI, "role"), diveEntry.getBuddy())
+    							
+    							//// diveURI = "http://scubadive.networld.to/dive.rdf#"
+    							.addProperty(diveM.createProperty(diveURI, "bottomtime"), ResourceFactory.createTypedLiteral(diveEntry.getMinutes()))
+    							.addProperty(diveM.createProperty(diveURI, "airTemperature"), ResourceFactory.createTypedLiteral(diveEntry.getAirTemp()))
+    							.addProperty(diveM.createProperty(diveURI, "bottomTemperature"), ResourceFactory.createTypedLiteral(diveEntry.getWaterTemp()))
+    							////
+    							
     							.addProperty(diveM.createProperty(EXTERNAL_SOURCE+"/ontology/location"), diveEntry.getLocation());
 
-//    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "diver"), "Stefan33");
-//    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "name"), "First Dive");
-//    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "maxdeep"), ResourceFactory.createTypedLiteral(33));
-    	
+//    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "diver"), "Stefan313");
+//    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "name"), "First Dive1");
+//    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "maxdeep"), ResourceFactory.createTypedLiteral(313));
+//    	
     	LOG.info("Adding a resource to the default graph: \n" + dive1.toString());
     	
     	adapter.add(diveM);
+
     	
     	return dive1;
 
 	}
+	
+//	public static Resource updateDiveEntry (DiveEntry diveEntry) {
+//		
+//    	System.out.println("### Getting the default MODEL");
+//    	LOG.info("### Getting the default MODEL");
+//    	Model defaultModel = adapter.getModel();
+//    	
+//    	Model diveM = ModelFactory.createDefaultModel();
+//    
+//    	
+//    	Resource dive1 = diveM.createResource(diveURI + "Dive/" + UUID.randomUUID() + ":" + diveEntry.getId())
+//    							.addProperty(diveM.createProperty(diveURI, "diver"), diveEntry.getDiver())
+//    							.addProperty(diveM.createProperty(diveURI, "name"), diveEntry.getName())
+//    							.addProperty(diveM.createProperty(diveURI, "maxdeep"), ResourceFactory.createTypedLiteral(diveEntry.getDepth()))
+//    							.addProperty(diveM.createProperty(diveURI, "role"), diveEntry.getBuddy())
+//    							.addProperty(diveM.createProperty(EXTERNAL_SOURCE+"/ontology/location"), diveEntry.getLocation());
+//
+////    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "diver"), "Stefan33");
+////    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "name"), "First Dive");
+////    	diveM.add(diveM.createResource(diveURI + "Dive"), diveM.createProperty(diveURI, "maxdeep"), ResourceFactory.createTypedLiteral(33));
+//    	
+//    	LOG.info("Adding a resource to the default graph: \n" + dive1.toString());
+//    	
+//    	adapter.add(diveM);
+//    	
+//    	return dive1;
+//
+//	}
 
 
 
 
 	public static List<DiveEntry> getAllDives() {
 		List<DiveEntry> divesList = new ArrayList<DiveEntry>();
-//		StringWriter out = new StringWriter();
+		List<String> diveIds = new ArrayList<String>();
 		
-		String sparqlQueryString1= "SELECT ?s ?p ?o2"
-				+ "where {"
-				+ "?s <http://scubadive.networld.to/dive.rdf#name> ?divename ."
-				+ "?s ?p ?o2 ."
-				+ "}";
+		String sparqlQueryString1= "SELECT ?s "
+				+ "where { "
+				+ " ?s <http://scubadive.networld.to/dive.rdf#name> ?divename . "
+				+ " }";
 		
 		
 		Query query = QueryFactory.create(sparqlQueryString1);
@@ -104,7 +149,14 @@ public class FusekiAdapter {
 		
 		ResultSet results = qexec.execSelect();
 		qexec.close() ;
-		return diveEntryMapper.mapDiveEntryList(results);
+		
+		diveIds =  diveEntryMapper.mapDiveIdsList(results);
+		
+		for(String id : diveIds) {
+			divesList.add(getDiveById(id));
+		}
+		
+		return divesList;
 	}
 
 
@@ -124,6 +176,49 @@ public class FusekiAdapter {
 		ResultSet results = qexec.execSelect();
 		qexec.close() ;
 		return diveEntryMapper.mapDiveEntry(id, results);
+
+	}
+
+
+
+
+	public static List<String> getAllLocations() {
+		
+		String sparqlQuery = "SELECT DISTINCT ?country_name ?name "
+			+ "WHERE {"
+			+ " ?s <http://www.w3.org/2001/sw/DataAccess/tests/result-set#variable> ?country_name . "
+			+ " ?s <http://www.w3.org/2001/sw/DataAccess/tests/result-set#value> ?name . "
+    		+ " }";
+		
+		Query query = QueryFactory.create(sparqlQuery);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
+		
+		ResultSet results = qexec.execSelect();
+		qexec.close() ;
+
+
+		return locationsMapper.mapStringLocationsList(results);
+	}
+	
+	
+	public static boolean removeDiveById(String id) {
+		
+		String sparqlQueryString1= "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
+				+ "DELETE { ?s ?p ?o } "
+				+ "WHERE "
+				+ " { ?s ?p ?o ; "
+				+ " rdf:ID "
+				+ "'" + id + "' "
+				+ "} ";
+		
+		
+		Query query = QueryFactory.create(sparqlQueryString1);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
+		
+		ResultSet results = qexec.execSelect();
+		qexec.close() ;
+		
+		return false;
 
 	}
 

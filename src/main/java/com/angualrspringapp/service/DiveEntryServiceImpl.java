@@ -3,6 +3,7 @@ package com.angualrspringapp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
 import org.apache.jena.web.DatasetAdapter;
 import org.apache.jena.web.DatasetGraphAccessorHTTP;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,18 @@ public class DiveEntryServiceImpl implements DiveEntryService {
     private static Long id = 0L;
 
     @Override
+    public List<String> getAllLocations() {
+    	
+    	return FusekiAdapter.getAllLocations();
+    	
+    }
+    
+    @Override
     public List<DiveEntry> getAllDives() {
     	System.out.println("DIVE ENTRY\n" +findDiveEntryById("http://scubadive.networld.to/dive.rdf#Dive/8176e91f-d213-4f61-877f-fe6591601ef1:1"));
     	
-    	divesList.add(findDiveEntryById("http://scubadive.networld.to/dive.rdf#Dive/8176e91f-d213-4f61-877f-fe6591601ef1:1"));
-//    	divesList = FusekiAdapter.getAllDives();
+//    	divesList.add(findDiveEntryById("http://scubadive.networld.to/dive.rdf#Dive/8176e91f-d213-4f61-877f-fe6591601ef1:1"));
+    	divesList = FusekiAdapter.getAllDives();
         return divesList;
     }
 
@@ -53,7 +61,20 @@ public class DiveEntryServiceImpl implements DiveEntryService {
     }
 
     @Override
+    public void deleteDiveById(String id) {
+    	System.out.println("REMOVE DIVE: " + id);
+    	
+    	boolean success = FusekiAdapter.removeDiveById(id);
+
+        if(success) System.out.println("SUCCESSFULLY ON REMOVED DIVE: " + id);
+        else System.out.println("COULD NOT REMOVE DIVE: " + id);
+        
+    }
+    
+    @Override
     public void deleteDiveById(Long id) {
+    	System.out.println("REMOVE DIVE" + id);
+    	
         DiveEntry foundDiveEntry = findDiveEntryById(id);
         if (foundDiveEntry != null) {
             divesList.remove(foundDiveEntry);

@@ -50,16 +50,14 @@ public class CarController {
         return "cars/layout";
     }
     
-    @RequestMapping("/locsList.json")
+    @RequestMapping("/locationsList.json")
     public @ResponseBody List<String> getLocsList() {
     	
-    	List<String> locs = new ArrayList<String>();
+    	List<String> locations;
     	
-    	locs.add("London");
-    	locs.add("Mcr");
-    	locs.add("Sofia");
+    	locations = carService.getAllLocations();
     	
-        return locs;
+        return locations;
     }
     
     

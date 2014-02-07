@@ -37,8 +37,13 @@ public class DiveEntryController {
         diveEntryService.updateDive(dive);
     }
 
+//    @RequestMapping(value = "/removeDive/{id}", method = RequestMethod.DELETE)
+//    public @ResponseBody void removeDive(@PathVariable("id") Long id) {
+//        diveEntryService.deleteDiveById(id);
+//    }
+    
     @RequestMapping(value = "/removeDive/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody void removeDive(@PathVariable("id") Long id) {
+    public @ResponseBody void removeDive(@PathVariable("id") String id) {
         diveEntryService.deleteDiveById(id);
     }
 
@@ -50,6 +55,16 @@ public class DiveEntryController {
     @RequestMapping("/layout")
     public String getDivePartialPage(ModelMap modelMap) {
         return "dives/layout";
+    }
+    
+    @RequestMapping("/locationsList.json")
+    public @ResponseBody List<String> getLocsList() {
+    	
+    	List<String> locations;
+    	
+    	locations = diveEntryService.getAllLocations();
+    	
+        return locations;
     }
 	
 

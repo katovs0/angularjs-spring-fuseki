@@ -5,18 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.query.DatasetAccessor;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
+import com.angualrspringapp.external.FusekiAdapter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,6 +37,13 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteAll() {
         carList.clear();
+    }
+    
+    
+    public List<String> getAllLocations() {
+    	
+    	return FusekiAdapter.getAllLocations();
+    	
     }
     
    

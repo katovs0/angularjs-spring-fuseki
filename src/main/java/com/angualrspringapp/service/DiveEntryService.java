@@ -17,4 +17,8 @@ public interface DiveEntryService {
     public void deleteAll();
 
     public void updateDive(DiveEntry diveEntry);
+
+	void deleteDiveById(String id);
+
+	public List<String> getAllLocations();
 }

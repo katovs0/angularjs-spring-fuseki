@@ -17,5 +17,7 @@ public interface CarService {
 
     public void deleteAll();
 
+	public List<String> getAllLocations();
+
 //	public void autoCompleteCity();
 }

@@ -91,7 +91,14 @@ var DiveEntryController = function($scope, $http) {
         $scope.error = true;
         $scope.errorMessage = message;
     }
+    
+    $scope.fetchLocsList = function() {
+        $http.get('cars/locationsList.json').success(function(locsList){
+            $scope.locations = locsList;
+        });
+    }
 
+    $scope.fetchLocsList();
     $scope.fetchDivesList();
 
     $scope.predicate = 'id';
