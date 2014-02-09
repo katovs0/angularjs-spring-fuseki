@@ -49,7 +49,7 @@ public class DiveEntryController {
 
     @RequestMapping(value = "/removeAllDives", method = RequestMethod.DELETE)
     public @ResponseBody void removeAllDives() {
-        diveEntryService.deleteAll();
+        diveEntryService.deleteAllDives();
     }
 
     @RequestMapping("/layout")

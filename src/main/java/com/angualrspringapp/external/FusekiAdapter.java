@@ -14,13 +14,15 @@ import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.update.UpdateExecutionFactory;
+import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.update.UpdateProcessor;
+import com.hp.hpl.jena.update.UpdateRequest;
 
 public class FusekiAdapter {
 	private static Logger LOG = Logger.getLogger(FusekiAdapter.class);
@@ -74,7 +76,7 @@ public class FusekiAdapter {
     	
     	//Refactoring idea: http://pic.dhe.ibm.com/infocenter/db2luw/v10r1/index.jsp?topic=%2Fcom.ibm.swg.im.dbclient.rdf.doc%2Fdoc%2Fc0060696.html
     	Resource dive1 = diveM.createResource(diveURI + "Dive/" + (uniqueId=UUID.randomUUID()) + ":" + diveEntry.getId())
-    							.addProperty(diveM.createProperty(RDF_SYNTAX, "type"), diveURI + "Dive")
+    							.addProperty(diveM.createProperty(RDF_SYNTAX, "type"), diveM.createResource(diveURI + "Dive"))
 //    							.addProperty(diveM.createProperty(RDF_SYNTAX, "ID"), uniqueId.toString())
     							.addProperty(diveM.createProperty(diveURI, "id"), uniqueId.toString())
     							.addProperty(diveM.createProperty(diveURI, "diver"), diveEntry.getDiver())
@@ -203,22 +205,68 @@ public class FusekiAdapter {
 	
 	public static boolean removeDiveById(String id) {
 		
-		String sparqlQueryString1= "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
-				+ "DELETE { ?s ?p ?o } "
+		String updateRequestString = "DELETE { ?s ?p ?o } "
 				+ "WHERE "
 				+ " { ?s ?p ?o ; "
-				+ " rdf:ID "
+				+ " <http://scubadive.networld.to/dive.rdf#id> "
 				+ "'" + id + "' "
 				+ "} ";
 		
 		
-		Query query = QueryFactory.create(sparqlQueryString1);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
+		try {
+			
+			UpdateRequest  request = UpdateFactory.create();
+			request.add(updateRequestString);
+			
+			LOG.info("@@@@");
+			LOG.info(request.toString());
+			
+			UpdateProcessor processor = UpdateExecutionFactory.createRemoteForm(request, RDF_STORE + "/update");
+			
+			LOG.info("COMTEXT:\n" + processor.getContext());
+			LOG.info("GRAPH STORE: \n" + processor.getGraphStore());
 		
-		ResultSet results = qexec.execSelect();
-		qexec.close() ;
+			processor.execute();
+			
+		} catch (Exception e) {
+			LOG.error("ERROR while updating dive entry [" + id + "]\n" + e.getMessage());
+			return false;
+		}
 		
-		return false;
+		return true;
+
+	}
+	
+	public static boolean removeAllDives() {
+		
+		String updateRequestString = "DELETE { ?s ?p ?o } "
+				+ "WHERE "
+				+ " { ?s ?p ?o ; "
+				+ "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://scubadive.networld.to/dive.rdf#Dive> "
+				+ "} ";
+		
+		
+		try {
+			
+			UpdateRequest  request = UpdateFactory.create();
+			request.add(updateRequestString);
+			
+			LOG.info("@@@@");
+			LOG.info(request.toString());
+			
+			UpdateProcessor processor = UpdateExecutionFactory.createRemoteForm(request, RDF_STORE + "/update");
+			
+			LOG.info("COMTEXT:\n" + processor.getContext());
+			LOG.info("GRAPH STORE: \n" + processor.getGraphStore());
+		
+			processor.execute();
+			
+		} catch (Exception e) {
+			LOG.error("ERROR while removing all dives: " + e.getMessage());
+			return false;
+		}
+		
+		return true;
 
 	}
 

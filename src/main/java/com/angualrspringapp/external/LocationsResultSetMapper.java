@@ -63,8 +63,8 @@ public class LocationsResultSetMapper {
 			if(binding.get("country_name").toString().contains("country_name"))
 				locations.add(binding.get("name").asLiteral().getString());
 			
-			System.out.println("##### Locations");
-			System.out.println(locations.toString());
+//			System.out.println("##### Locations");
+//			System.out.println(locations.toString());
 
 		}
 		} catch (Exception e){

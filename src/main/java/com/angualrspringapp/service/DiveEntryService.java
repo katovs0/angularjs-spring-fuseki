@@ -8,13 +8,13 @@ public interface DiveEntryService {
 	
     public List<DiveEntry> getAllDives();
 
-    public DiveEntry getDiveById(Long id);
+//    public DiveEntry getDiveById(Long id);
 
     public void addDive(DiveEntry diveEntry);
 
-    public void deleteDiveById(Long id);
+//    public void deleteDiveById(Long id);
 
-    public void deleteAll();
+    public void deleteAllDives();
 
     public void updateDive(DiveEntry diveEntry);
 

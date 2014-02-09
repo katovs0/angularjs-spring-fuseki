@@ -6,9 +6,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.jena.web.DatasetAdapter;
 import org.apache.jena.web.DatasetGraphAccessorHTTP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.angualrspringapp.beans.DiveEntry;
+import com.angualrspringapp.external.DiveEntryResultSetMapper;
 import com.angualrspringapp.external.FusekiAdapter;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.graph.Graph;
@@ -26,8 +29,10 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 @Service("diveEntryService")
 public class DiveEntryServiceImpl implements DiveEntryService {
-    private static List<DiveEntry> divesList = new ArrayList<DiveEntry>();
-    private static Long id = 0L;
+//    private static List<DiveEntry> divesList = new ArrayList<DiveEntry>();
+//    private static Long id = 0L;
+	
+	private static Logger LOG = LoggerFactory.getLogger(DiveEntryServiceImpl.class);
 
     @Override
     public List<String> getAllLocations() {
@@ -38,31 +43,29 @@ public class DiveEntryServiceImpl implements DiveEntryService {
     
     @Override
     public List<DiveEntry> getAllDives() {
-    	System.out.println("DIVE ENTRY\n" +findDiveEntryById("http://scubadive.networld.to/dive.rdf#Dive/8176e91f-d213-4f61-877f-fe6591601ef1:1"));
+    	List<DiveEntry> divesList = new ArrayList<DiveEntry>();
     	
-//    	divesList.add(findDiveEntryById("http://scubadive.networld.to/dive.rdf#Dive/8176e91f-d213-4f61-877f-fe6591601ef1:1"));
+    	LOG.info("GETTING ALL DIVES");
+
     	divesList = FusekiAdapter.getAllDives();
         return divesList;
     }
 
-    @Override
-    public DiveEntry getDiveById(Long id) {
-        return findDiveEntryById(id);
-    }
+//    @Override
+//    public DiveEntry getDiveById(Long id) {
+//        return findDiveEntryById(id);
+//    }
 
     @Override
     public void addDive(DiveEntry diveEntry) {
-    	System.out.println(diveEntry.toString());
-        diveEntry.setId(++id);
-        divesList.add(diveEntry);
-        
-//        jenaToFusekiLocal2(diveEntry);
+    	LOG.info("ADD DIVE: " + diveEntry.toString());
+
         FusekiAdapter.storeDiveEntry(diveEntry);
     }
 
     @Override
     public void deleteDiveById(String id) {
-    	System.out.println("REMOVE DIVE: " + id);
+    	LOG.info("REMOVE DIVE: " + id);
     	
     	boolean success = FusekiAdapter.removeDiveById(id);
 
@@ -71,41 +74,47 @@ public class DiveEntryServiceImpl implements DiveEntryService {
         
     }
     
-    @Override
-    public void deleteDiveById(Long id) {
-    	System.out.println("REMOVE DIVE" + id);
-    	
-        DiveEntry foundDiveEntry = findDiveEntryById(id);
-        if (foundDiveEntry != null) {
-            divesList.remove(foundDiveEntry);
-            id--;
-        }
-    }
+//    @Override
+//    public void deleteDiveById(Long id) {
+//    	System.out.println("REMOVE DIVE" + id);
+//    	
+//        DiveEntry foundDiveEntry = findDiveEntryById(id);
+//        if (foundDiveEntry != null) {
+//            divesList.remove(foundDiveEntry);
+//            id--;
+//        }
+//    }
 
     @Override
-    public void deleteAll() {
-        divesList.clear();
-        id = 0L;
+    public void deleteAllDives() {
+    	LOG.info("REMOVE ALL DIVES");
+    	
+    	boolean success = FusekiAdapter.removeAllDives();
+
+        if(success) LOG.info("SUCCESSFULLY ON REMOVING ALL DIVES");
+        else LOG.info("COULD NOT REMOVE ALL DIVES");
     }
 
     @Override
     public void updateDive(DiveEntry diveEntry) {
-        DiveEntry foundDiveEntry = findDiveEntryById(diveEntry.getId());
+    	LOG.info("UPDATING DIVE [" + diveEntry.getIdString() + "]");
+    	
+        DiveEntry foundDiveEntry = findDiveEntryById(diveEntry.getIdString());
         if (foundDiveEntry != null) {
-            divesList.remove(foundDiveEntry);
-            divesList.add(diveEntry);
+        	deleteDiveById(diveEntry.getIdString());
+        	addDive(diveEntry);
         }
     }
 
-    private DiveEntry findDiveEntryById(Long id) {
-        for (DiveEntry DiveEntry : divesList) {
-            if (DiveEntry.getId() == id) {
-                return DiveEntry;
-            }
-        }
-
-        return null;
-    }
+//    private DiveEntry findDiveEntryById(Long id) {
+//        for (DiveEntry DiveEntry : divesList) {
+//            if (DiveEntry.getId() == id) {
+//                return DiveEntry;
+//            }
+//        }
+//
+//        return null;
+//    }
     
     private DiveEntry findDiveEntryById(String id) {
     	
