@@ -11,16 +11,6 @@ App.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'divers/layout',
         controller: DiverController
     });
-
-    $routeProvider.when('/trains', {
-        templateUrl: 'trains/layout',
-        controller: TrainController
-    });
-    
-    $routeProvider.when('/railwaystations', {
-        templateUrl: 'railwaystations/layout',
-        controller: RailwayStationController
-    });
     
     $routeProvider.when('/dives', {
         templateUrl: 'dives/layout',
