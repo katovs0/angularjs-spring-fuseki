@@ -1,43 +1,43 @@
 'use strict';
 
 /**
- * CarController
+ * DiverController
  * @constructor
  */
-var CarController = function($scope, $http) {
-    $scope.fetchCarsList = function() {
-        $http.get('cars/carlist.json').success(function(carList){
-            $scope.cars = carList;
+var DiverController = function($scope, $http) {
+    $scope.fetchDiversList = function() {
+        $http.get('divers/diverlist.json').success(function(diverList){
+            $scope.divers = diverList;
         });
     }
 
-    $scope.addNewCar = function(newCar) {
-        $http.post('cars/addCar/' + newCar).success(function() {
-            $scope.fetchCarsList();
+    $scope.addNewDiver = function(newDiver) {
+        $http.post('divers/addDiver/' + newDiver).success(function() {
+            $scope.fetchDiversList();
         });
-        $scope.carName = '';
+        $scope.diverName = '';
     }
 
-    $scope.removeCar = function(car) {
-        $http.delete('cars/removeCar/' + car).success(function() {
-            $scope.fetchCarsList();
+    $scope.removeDiver = function(diver) {
+        $http.delete('divers/removeDiver/' + diver).success(function() {
+            $scope.fetchDiversList();
         });
     }
 
-    $scope.removeAllCars = function() {
-        $http.delete('cars/removeAllCars').success(function() {
-            $scope.fetchCarsList();
+    $scope.removeAllDivers = function() {
+        $http.delete('divers/removeAllDivers').success(function() {
+            $scope.fetchDiversList();
         });
 
     };
     
     $scope.fetchLocsList = function() {
-        $http.get('cars/locationsList.json').success(function(locsList){
+        $http.get('divers/locationsList.json').success(function(locsList){
             $scope.locations = locsList;
         });
     }
 
-    $scope.fetchCarsList();
+    $scope.fetchDiversList();
     $scope.fetchLocsList();
     
 //    $scope.cities = function(cityName) {

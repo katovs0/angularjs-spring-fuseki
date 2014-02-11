@@ -75,7 +75,7 @@ public class FusekiAdapter {
     	UUID uniqueId;
     	
     	//Refactoring idea: http://pic.dhe.ibm.com/infocenter/db2luw/v10r1/index.jsp?topic=%2Fcom.ibm.swg.im.dbclient.rdf.doc%2Fdoc%2Fc0060696.html
-    	Resource dive1 = diveM.createResource(diveURI + "Dive/" + (uniqueId=UUID.randomUUID()) + ":" + diveEntry.getId())
+    	Resource dive1 = diveM.createResource(diveURI + "Dive/" + (uniqueId=UUID.randomUUID()))
     							.addProperty(diveM.createProperty(RDF_SYNTAX, "type"), diveM.createResource(diveURI + "Dive"))
 //    							.addProperty(diveM.createProperty(RDF_SYNTAX, "ID"), uniqueId.toString())
     							.addProperty(diveM.createProperty(diveURI, "id"), uniqueId.toString())
