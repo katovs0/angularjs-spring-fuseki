@@ -12,12 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.angualrspringapp.service.DiverService;
 
-/**
- * Created with IntelliJ IDEA.
- * User: xvitcoder
- * Date: 12/21/12
- * Time: 12:23 AM
- */
 @Controller
 @RequestMapping("/divers")
 public class DiverController {
@@ -27,6 +21,7 @@ public class DiverController {
 
     @RequestMapping("/diverlist.json")
     public @ResponseBody List<String> getDiverList() {
+    	System.out.println("GETTING DIVERLIST");
         return diverService.getAllDivers();
     }
 
@@ -53,9 +48,9 @@ public class DiverController {
     @RequestMapping("/locationsList.json")
     public @ResponseBody List<String> getLocsList() {
     	
-    	List<String> locations;
+    	List<String> locations = new ArrayList();
     	
-    	locations = diverService.getAllLocations();
+//    	locations = diverService.getAllLocations();
     	
         return locations;
     }

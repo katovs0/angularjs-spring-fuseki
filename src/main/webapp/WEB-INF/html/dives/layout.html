@@ -31,7 +31,7 @@
 
         <div class="controls">
         <label class="control-label" for="inputEmail">Diver</label>
-            <input class="span3" type="text" id="inputDiver" ng-model="dive.diver" placeholder="Diver" required min="1">
+            <input class="span3" type="text" id="inputDiver" list="diversList" ng-model="dive.diver" placeholder="Diver" required min="1">
         </div>
         <div class="controls">
         <label class="control-label" for="inputEmail">Buddy</label>
@@ -81,7 +81,7 @@
             <th style="text-align: center;">airTemp</th>
             <th style="text-align: center;">waterTemp</th>
             
-            <th style="text-align: center;">Valid</th>
+            <th style="text-align: center;">Image</th>
             <th style="text-align: center;">Action</th>
         </tr>
     </thead>
@@ -96,6 +96,9 @@
             <td>{{dive.minutes}} minutes</td>
             <td>{{dive.airTemp}} °C</td>
             <td>{{dive.waterTemp}} °C</td>
+<!--             <td>{{dive.locationImage}} </td> -->
+            <td><img ng-src="{{dive.locationImage}}" class="phone"> </td>
+<!--             <td><img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Andorra.svg/200px-Flag_of_Andorra.svg.png" class="phone"> </td> -->
             <td style="text-align: center;width: 20px;"><span ng-show="dive.valid" class="icon-ok"></span></td>
             <td style="width:100px;text-align: center;">
                 <button class="btn btn-mini btn-danger" ng-click="removeDive(dive.idString)">Remove</button>
@@ -110,3 +113,7 @@
 <datalist id="locsList">
     <option  data-ng-repeat="location in locations" value="{{location}}">
 </datalist>
+
+<datalist id="diversList">
+   <option  data-ng-repeat="diver in divers" value="{{diver}}">
+ </datalist>

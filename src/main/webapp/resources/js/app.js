@@ -16,6 +16,11 @@ App.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'dives/layout',
         controller: DiveEntryController
     });
+    
+    $routeProvider.when('/divesfilter', {
+        templateUrl: 'divesfilter/layout',
+        controller: FilteredDiveEntryController
+    });
 
     $routeProvider.otherwise({redirectTo: '/dives'});
 }]);

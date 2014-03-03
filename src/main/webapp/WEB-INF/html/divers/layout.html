@@ -6,14 +6,10 @@
 
 <!--                 <p>Datalist browser support (Dec 2011) is Firefox 4+ and Opera 10.5+ (or therebouts). Maybe IE 10 too. It's reasonable that you'd want WebKit support. So. This.</p> -->
 
-                <p><input type="text" id="search" list="locsList" placeholder="Find U.S. State" ></p>
+                <p><input type="text" id="search" list="diversList" placeholder="Find a Diver" ></p>
 
  <datalist id="diversList">
     <option  data-ng-repeat="diver in divers" value="{{diver}}">
-  </datalist>
-  
-   <datalist id="locsList">
-    <option  data-ng-repeat="location in locations" value="{{location}}">
   </datalist>
 
                 <datalist id="states">
@@ -73,17 +69,6 @@
 
 
         </div>
-
-<!-- <div class='container-fluid' ng-controller="DiverController"> -->
-<!--         <pre>Model: {{result | json}}</pre> -->
-<!--         <input type="text" ng-model="result" typeahead="suggestion for suggestion in cities($viewValue)"> -->
-<!--     </div> -->
-
-<!-- <div class='container-fluid' ng-controller="DiverController"> -->
-<!--             <pre>Model: {{selected| json}}</pre> -->
-<!--             <pre>{{states}}</pre> -->
-<!--             <input type="text" ng-change="onedit()" ng-model="selected" typeahead="state for state in states | filter:$viewValue"> -->
-<!--         </div> -->
 
 <div class="input-append">
     <input style="width:358px;" class="span2" type="text" ng-model="diverName" required min="1" />

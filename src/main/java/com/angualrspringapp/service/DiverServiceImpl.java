@@ -13,24 +13,26 @@ public class DiverServiceImpl implements DiverService {
 
     @Override
     public List<String> getAllDivers() {
-        return diverList;
+    	
+        return FusekiAdapter.getAllDivers();
     }
 
     @Override
     public void addDiver(String diver) {
-        diverList.add(diver);
+        
+        FusekiAdapter.storeDiver(diver);
     }
 
     @Override
     public void deleteDiver(String diver) {
-        if (diverList.contains(diver)) {
-            diverList.remove(diver);
-        }
+        
+        FusekiAdapter.removeDiver(diver);
     }
 
     @Override
     public void deleteAll() {
-        diverList.clear();
+    	
+    	FusekiAdapter.removeAllDivers();
     }
     
     

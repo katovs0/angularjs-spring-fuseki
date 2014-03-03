@@ -18,9 +18,11 @@ public class DiveEntry {
 	
 	private Boolean valid;
 	
+	private String locationImage;
+	
 	public DiveEntry() { }
 	
-	public DiveEntry(long id, String name, Integer depth, String location, String diver, String buddy, Integer minutes, Double airTemp, Double waterTemp, Boolean valid) {
+	public DiveEntry(long id, String name, Integer depth, String location, String diver, String buddy, Integer minutes, Double airTemp, Double waterTemp, Boolean valid, String locationImage) {
 		this.setId(id);
 		this.setName(name);
 		this.setLocation(location);
@@ -35,6 +37,8 @@ public class DiveEntry {
 		this.setWaterTemp(waterTemp);
 		
 		this.setValid(valid);
+		
+		this.setLocationImage(locationImage);
 	}
 
 	public Long getId() {
@@ -125,6 +129,14 @@ public class DiveEntry {
 		this.valid = valid;
 	}
 	
+	public String getLocationImage() {
+		return locationImage;
+	}
+
+	public void setLocationImage(String locationImage) {
+		this.locationImage = locationImage;
+	}
+
 	public String toString() {
 		   return ReflectionToStringBuilder.toString(this);
 		}

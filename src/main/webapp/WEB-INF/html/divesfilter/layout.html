@@ -1,0 +1,41 @@
+<div class="alert alert-error" ng-show="error">
+    {{errorMessage}}
+</div>
+
+<h3>List of Dives in an English-speaking country</h3>
+<div class="alert alert-info" ng-show="dives.length == 0">
+    No dives found
+</div>
+<table class="table table-bordered table-striped" ng-show="dives.length > 0">
+    <thead>
+        <tr>
+<!--             <th style="text-align: center; width: 25px;">Id</th> -->
+            <th style="text-align: center;">Name</th>
+            <th style="text-align: center;">Depth</th>
+                        
+            <th style="text-align: center;">location</th>
+            <th style="text-align: center;">diver</th>
+            <th style="text-align: center;">buddy</th>
+            <th style="text-align: center;">minutes</th>
+            <th style="text-align: center;">airTemp</th>
+            <th style="text-align: center;">waterTemp</th>
+            
+            <th style="text-align: center;">Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="dive in dives | orderBy:predicate">
+<!--             <td style="text-align: center;">{{dive.idString}}</td> -->
+            <td>{{dive.name}}</td>
+            <td>{{dive.depth}}</td>
+            <td>{{dive.location}}</td>
+            <td>{{dive.diver}}</td>
+            <td>{{dive.buddy}}</td>
+            <td>{{dive.minutes}} minutes</td>
+            <td>{{dive.airTemp}} °C</td>
+            <td>{{dive.waterTemp}} °C</td>
+            <td><img ng-src="{{dive.locationImage}}" class="phone"> </td>
+
+        </tr>
+    </tbody>
+</table>

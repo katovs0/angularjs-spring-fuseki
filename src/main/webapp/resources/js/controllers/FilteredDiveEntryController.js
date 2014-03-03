@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * DiveEntryController
+ * FilteredDiveEntryController
  * @constructor
  */
-var DiveEntryController = function($scope, $http) {
+var FilteredDiveEntryController = function($scope, $http) {
     $scope.dive = {};
     $scope.editMode = false;
 
@@ -91,22 +91,9 @@ var DiveEntryController = function($scope, $http) {
         $scope.error = true;
         $scope.errorMessage = message;
     }
-    
-    $scope.fetchLocsList = function() {
-        $http.get('dives/locationsList.json').success(function(locsList){
-            $scope.locations = locsList;
-        });
-    }
-    
-    $scope.fetchDiversList = function() {
-        $http.get('divers/diverlist.json').success(function(diverList){
-            $scope.divers = diverList;
-        });
-    }
+
 
     $scope.fetchDivesList();
-    $scope.fetchLocsList();
-    $scope.fetchDiversList();
     
 
     $scope.predicate = 'id';

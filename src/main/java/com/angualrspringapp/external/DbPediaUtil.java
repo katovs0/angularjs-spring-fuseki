@@ -51,5 +51,55 @@ public class DbPediaUtil {
 	     
 	     adapter.add(m);
 	}
+	
+	
+  private void jenaToDBPedia() {
+	
+    String sparqlQueryString1= "PREFIX dbont: <http://dbpedia.org/ontology/> "+
+    	    "PREFIX dbp: <http://dbpedia.org/property/>"+
+    	        "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>"+
+    	    "   SELECT ?musician  ?place"+
+//    	    "   FROM<http://dbpedia.org/resource/Daphne_Oram>"+
+    	    "   WHERE {  "+
+    	    "       ?musician dbont:birthPlace ?place ."+
+    	    "        } LIMIT 10";
+
+
+    	      Query query = QueryFactory.create(sparqlQueryString1);
+    	      QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+
+    	      ResultSet results = qexec.execSelect();
+//    	      ResultSetFormatter.out(System.out, results, query);
+    	      
+    	      Model m = ResultSetFormatter.toModel(results);
+    	      m.write(System.out, "RDF/XML-ABBREV");
+    	      
+    	      
+//    	      System.out.println("MODEL\n" + m.toString() + "\n=======================");
+//    	      
+//    	      System.out.println("--------------------CSV----------------------------`");
+//    		  ResultSetFormatter.outputAsCSV(System.out, results);
+//    		  System.out.println("----------------------JSON--------------------------`");
+//    		  ResultSetFormatter.outputAsJSON(System.out, results);
+//    		  System.out.println("------------------XML------------------------------`");
+//    		  ResultSetFormatter.outputAsXML(System.out, results);
+    		  
+//    		  while(results.hasNext()){
+//    			  System.out.println("========================");
+//    		      System.out.println(results.next()); 
+//    		  }
+    		  
+    		  
+//    		  if(results != null) System.out.println("###ROW NUMBER" + results.getRowNumber() +"\n ###");
+//    		  if(results != null) System.out.println("###RESULT VARS" + results.getResultVars() +"\n ###");
+    		//        	      if(results != null) System.out.println("###NEXT BINDING" + results.nextBinding() +"\n ###");
+    		//        	      if(results != null) System.out.println("###NEXT SOLUTION" + results.nextSolution() +"\n ###");
+    		  
+    		  if(results.getResourceModel() != null) System.out.println("@@@" + results.getResourceModel()); 
+    		  else System.out.println("£££££££££££");
+
+    	     qexec.close() ;
+	
+}
 
 }

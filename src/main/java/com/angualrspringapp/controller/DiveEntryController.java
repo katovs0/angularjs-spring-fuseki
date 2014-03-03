@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.angualrspringapp.beans.DiveEntry;
 import com.angualrspringapp.service.DiveEntryService;
+import com.angualrspringapp.service.DiverServiceImpl;
 
 @Controller
 @RequestMapping("/dives")
@@ -65,7 +66,6 @@ public class DiveEntryController {
     	locations = diveEntryService.getAllLocations();
     	
         return locations;
-    }
-	
+    }	
 
 }
