@@ -3,29 +3,13 @@ package com.angualrspringapp.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.jena.web.DatasetAdapter;
-import org.apache.jena.web.DatasetGraphAccessorHTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.external.DiveEntryResultSetMapper;
+import com.angualrspringapp.beans.SearchFilter;
 import com.angualrspringapp.external.FusekiAdapter;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 @Service("diveEntryService")
 public class DiveEntryServiceImpl implements DiveEntryService {
@@ -93,6 +77,23 @@ public class DiveEntryServiceImpl implements DiveEntryService {
     	
     	return FusekiAdapter.getDiveById(id);
 
+    }
+    
+    //Queries both local rdf store and external data source to filter out the data
+    public List<DiveEntry> getFilteredDives() {
+    	List<DiveEntry> divesList = new ArrayList<DiveEntry>();    	
+    	LOG.info("GETTING ALL FILTERED DIVES");
+
+    	divesList = FusekiAdapter.getFilteredDives();
+        return divesList;
+    }
+    
+    public List<DiveEntry> getSearchFilteredDives(SearchFilter filter) {
+    	List<DiveEntry> divesList = new ArrayList<DiveEntry>();    	
+    	LOG.info("GETTING FILTERED DIVES");
+
+    	divesList = FusekiAdapter.getSearchFilteredDives(filter);
+        return divesList;
     }
 
 

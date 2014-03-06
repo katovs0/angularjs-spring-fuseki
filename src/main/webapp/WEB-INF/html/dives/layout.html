@@ -49,11 +49,11 @@
         </div>
     </div>
     <div class="control-group">
-        <div class="controls">
-            <label class="checkbox">
-                <input type="checkbox" ng-model="dive.valid"> Is Valid
-            </label>
-        </div>
+<!--         <div class="controls"> -->
+<!--             <label class="checkbox"> -->
+<!--                 <input type="checkbox" ng-model="dive.valid"> Is Valid -->
+<!--             </label> -->
+<!--         </div> -->
         <hr />
         <div class="controls">
             <button type="button" class="btn btn-primary" ng-disabled="!dive.name || !dive.depth" ng-hide="editMode" ng-click="addNewDive(dive)">Add dive</button>
@@ -81,7 +81,7 @@
             <th style="text-align: center;">airTemp</th>
             <th style="text-align: center;">waterTemp</th>
             
-            <th style="text-align: center;">Image</th>
+<!--             <th style="text-align: center;">Image</th> -->
             <th style="text-align: center;">Action</th>
         </tr>
     </thead>
@@ -97,9 +97,9 @@
             <td>{{dive.airTemp}} °C</td>
             <td>{{dive.waterTemp}} °C</td>
 <!--             <td>{{dive.locationImage}} </td> -->
-            <td><img ng-src="{{dive.locationImage}}" class="phone"> </td>
+<!--             <td><img ng-src="{{dive.locationImage}}" class="phone"> </td> -->
 <!--             <td><img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Andorra.svg/200px-Flag_of_Andorra.svg.png" class="phone"> </td> -->
-            <td style="text-align: center;width: 20px;"><span ng-show="dive.valid" class="icon-ok"></span></td>
+<!--             <td style="text-align: center;width: 20px;"><span ng-show="dive.valid" class="icon-ok"></span></td> -->
             <td style="width:100px;text-align: center;">
                 <button class="btn btn-mini btn-danger" ng-click="removeDive(dive.idString)">Remove</button>
                 <button class="btn btn-mini btn-success" ng-click="editDive(dive)">Edit</button>

@@ -10,6 +10,7 @@ import org.apache.jena.web.DatasetGraphAccessorHTTP;
 import org.apache.log4j.Logger;
 
 import com.angualrspringapp.beans.DiveEntry;
+import com.angualrspringapp.beans.SearchFilter;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -111,10 +112,6 @@ public class FusekiAdapter {
 		List<DiveEntry> divesList = new ArrayList<DiveEntry>();
 		List<String> diveIds = new ArrayList<String>();
 		
-//		String sparqlQueryString1= "SELECT ?s "
-//				+ "where { "
-//				+ " ?s <http://scubadive.networld.to/dive.rdf#name> ?divename . "
-//				+ " }";
 		String sparqlQueryString1= "PREFIX scuba: <http://scubadive.networld.to/dive.rdf#>"
 				+ "select ?s "
 				+ "where { "
@@ -130,8 +127,8 @@ public class FusekiAdapter {
 		diveIds =  diveEntryMapper.mapDiveIdsList(results);
 		
 		for(String id : diveIds) {
-//			divesList.add(getDiveById(id));
-			divesList.add(getEnrichedDiveById(id));
+			divesList.add(getDiveById(id));
+//			divesList.add(getEnrichedDiveById(id));
 		}
 		
 		LOG.info("Dives list: " + divesList );
@@ -164,7 +161,7 @@ public class FusekiAdapter {
 					+ "PREFIX dbpprop: <http://dbpedia.org/property/>"
 					+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
 			
-					+ "select distinct  ?p ?o ?img "
+					+ "select distinct  ?p ?o ?img ?extLink ?lang1 ?photoCollection "
 					+ "where { "
 					+ "<" + id + "> ?p ?o ; " 
  					+ "dbpedia-owl:location ?location . "
@@ -174,6 +171,12 @@ public class FusekiAdapter {
     					+ "?s1 ?p1 ?location . "
     					+ "?s1 owl:sameAs ?s2 . "
     					+ "?s2 dbpedia-owl:thumbnail ?img . "
+    					
+    					+ "?s2 dbpprop:officialLanguages ?lang1 ."
+    					+ "?s2 dbpedia-owl:wikiPageExternalLink ?extLink ."
+    					+ "?s2 dbpprop:hasPhotoCollection ?photoCollection ."
+//    					+ "?lang1 rdfs:label ?lang ."
+//    					+ "Filter(lang(?lang) = 'en')"
     					+ "}"
     				+ "}"
 
@@ -185,9 +188,11 @@ public class FusekiAdapter {
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
 		
 		ResultSet results = qexec.execSelect();
+		
+		DiveEntry dive = diveEntryMapper.mapEnrichedDiveEntry(id, results);
 		qexec.close() ;
 		
-		return diveEntryMapper.mapEnrichedDiveEntry(id, results);
+		return dive;
 
 	}
 
@@ -203,10 +208,11 @@ public class FusekiAdapter {
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
 		
 		ResultSet results = qexec.execSelect();
-		qexec.close() ;
 
-
-		return locationsMapper.mapStringLocationsList(results);
+		List<String> locationsList = locationsMapper.mapStringLocationsList(results);
+		qexec.close();
+		
+		return locationsList;
 	}
 	
 	public static boolean removeDiveById(String id) {
@@ -398,6 +404,133 @@ public class FusekiAdapter {
 		
 		return true;
 		
+	}
+
+
+
+
+	public static List<DiveEntry> getFilteredDives() {
+		List<DiveEntry> divesList = new ArrayList<DiveEntry>();
+		List<String> diveIds = new ArrayList<String>();
+
+		String sparqlQueryString1= "PREFIX scuba: <http://scubadive.networld.to/dive.rdf#>"
+			+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+			+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>"
+			+ "PREFIX dbpprop: <http://dbpedia.org/property/>"
+			+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>"
+			+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+	
+			+ "select distinct  ?s "
+			+ "where { "
+				+ "?s ?p ?o . "
+				+ "?s a scuba:Dive ."
+				+ "?s dbpedia-owl:location ?name " 
+
+					+ "SERVICE <http://dbpedia.org/sparql> { " 
+					+ "?s1 ?p1 ?name . "
+					+ "?s1 owl:sameAs ?s2 . "
+					+ "optional {?s2 dbpedia-owl:language ?lang . }"
+					
+					+ "} FILTER( ?lang = <http://dbpedia.org/resource/English_language> )"
+			+ "}";
+		
+		Query query = QueryFactory.create(sparqlQueryString1);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
+		
+		ResultSet results = qexec.execSelect();
+		qexec.close() ;
+		
+		diveIds =  diveEntryMapper.mapDiveIdsList(results);
+		
+		for(String id : diveIds) {
+//			divesList.add(getDiveById(id));
+			divesList.add(getEnrichedDiveById(id));
+		}
+		
+		LOG.info("Dives list Filtered: " + divesList );
+		
+		return divesList;
+	}
+
+
+
+
+	public static List<DiveEntry> getSearchFilteredDives(SearchFilter filter) {
+		List<DiveEntry> divesList = new ArrayList<DiveEntry>();
+		List<String> diveIds = new ArrayList<String>();
+		
+		StringBuilder sparqlQuery = new StringBuilder();
+		sparqlQuery.append("PREFIX scuba: <http://scubadive.networld.to/dive.rdf#>\n");
+		sparqlQuery.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
+		sparqlQuery.append("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n");
+		sparqlQuery.append("PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n");
+		sparqlQuery.append("PREFIX dbpprop: <http://dbpedia.org/property/>\n");
+		sparqlQuery.append("PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n");
+		sparqlQuery.append("PREFIX owl: <http://www.w3.org/2002/07/owl#>\n");	
+		sparqlQuery.append("select distinct  ?s ");
+		sparqlQuery.append("where { ");
+			sparqlQuery.append("?s ?p ?o . ");
+			sparqlQuery.append("?s a scuba:Dive .");
+			sparqlQuery.append("?s scuba:airTemperature ?airTemp . ");
+			sparqlQuery.append("?s scuba:bottomTemperature ?waterTemp . ");
+			sparqlQuery.append("?s scuba:maxdeep ?depth . ");
+			sparqlQuery.append("?s scuba:bottomtime ?time . ");
+			sparqlQuery.append("?s scuba:diver ?diverName . ");
+			sparqlQuery.append("?s dbpedia-owl:location ?location . ");
+//			sparqlQuery.append("Filter ( ");
+				if(filter.getMinAirTemp() != null && filter.getMaxAirTemp() != null) sparqlQuery.append("FILTER ( ?airTemp > " + filter.getMinAirTemp() + " && ?airTemp <= " + filter.getMaxAirTemp() + " )");
+				if(filter.getMinWaterTemp() != null && filter.getMaxWaterTemp() != null) sparqlQuery.append("FILTER ( ?waterTemp > " + filter.getMinWaterTemp() + " && ?waterTemp <= " + filter.getMaxWaterTemp() + " )");
+				if(filter.getMinDepth() != null && filter.getMaxDepth() != null) sparqlQuery.append("FILTER ( ?depth > " + filter.getMinDepth() + " && ?depth <= " + filter.getMaxDepth() + " )");
+				if(filter.getMinTime() != null && filter.getMaxTime() != null) sparqlQuery.append("FILTER ( ?time > " + filter.getMinTime() + " && ?time <= " + filter.getMaxTime() + " )");
+				
+				if(filter.getDiverName()!=null && !filter.getDiverName().isEmpty()) sparqlQuery.append(" FILTER (?diverName = \"" + filter.getDiverName() + "\" )");
+				if(filter.getLocation()!=null && !filter.getLocation().isEmpty()) sparqlQuery.append(" FILTER (?location = \"" + filter.getLocation() + "\" )");
+//			sparqlQuery.append(")");
+		sparqlQuery.append("}");
+		
+		String sparqlQueryString1 = sparqlQuery.toString();
+
+//		String sparqlQueryString1= "PREFIX scuba: <http://scubadive.networld.to/dive.rdf#>\n"
+//			+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+//			+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+//			+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n"
+//			+ "PREFIX dbpprop: <http://dbpedia.org/property/>\n"
+//			+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n"
+//			+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
+//	
+//			+ "select distinct  ?s "
+//			+ "where { "
+//				+ "?s ?p ?o . "
+//				+ "?s a scuba:Dive ."
+//				+ "?s scuba:airTemperature ?airTemp . "
+//				+ "?s scuba:diver ?diverName . "
+//				+ "Filter ( "
+//					+ "( ?airTemp > " + filter.getMinAirTemp() + " && ?airTemp <= " + filter.getMaxAirTemp() + " )"
+//					+ " && (?diverName = \"" + filter.getDiverName() + "\" )"
+//				+ ")"
+//
+//			+ "}";
+		
+		
+		
+		LOG.info(sparqlQueryString1);
+		
+		Query query = QueryFactory.create(sparqlQueryString1);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
+		
+		ResultSet results = qexec.execSelect();
+		qexec.close() ;
+		
+		diveIds =  diveEntryMapper.mapDiveIdsList(results);
+		
+		for(String id : diveIds) {
+//			divesList.add(getDiveById(id));
+			divesList.add(getEnrichedDiveById(id));
+		}
+		
+		LOG.info("Dives list Search Filtered: " + divesList );
+		
+		return divesList;
 	}
 
 	

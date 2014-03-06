@@ -2,7 +2,75 @@
     {{errorMessage}}
 </div>
 
-<h3>List of Dives in an English-speaking country</h3>
+<!-- <div jq:slider></div> -->
+<!-- <input id="amount" /> -->
+<!--     {{years}} -->
+
+<h3> FILTERS </h3>
+
+   <div style="width: 100%; overflow: hidden;">
+	   <div style="width: 300px; float: left;" class="controls">
+	   <label class="control-label" for="inputEmail">Min air Temp</label>
+	       <input class="span3" type="number" id="inputMinAirTemp" ng-model="filter.minAirTemp" placeholder="minAirTemp" required min="0">
+	       <span class="add-on"> °C</span>
+	   </div>
+	   <div style="margin-left: 320px;" class="controls">
+	   <label class="control-label" for="inputEmail">Max air Temp</label>
+	       <input class="span3" type="number" id="inputMaxAirTemp" ng-model="filter.maxAirTemp" placeholder="maxAirTemp" required min="0">
+	       <span class="add-on"> °C</span>
+	   </div>
+   </div>
+   <div style="width: 100%; overflow: hidden;">
+       <div style="width: 300px; float: left;" class="controls">
+       <label class="control-label" for="inputEmail">Min water Temp</label>
+           <input class="span3" type="number" id="inputMinWaterTemp" ng-model="filter.minWaterTemp" placeholder="minWaterTemp" required min="0">
+           <span class="add-on"> °C</span>
+       </div>
+       <div style="margin-left: 320px;" class="controls">
+       <label class="control-label" for="inputEmail">Max water Temp</label>
+           <input class="span3" type="number" id="inputMaxWaterTemp" ng-model="filter.maxWaterTemp" placeholder="maxWaterTemp" required min="0">
+           <span class="add-on"> °C</span>
+       </div>
+   </div>
+   <div style="width: 100%; overflow: hidden;">
+       <div style="width: 300px; float: left;" class="controls">
+       <label class="control-label" for="inputEmail">Min Depth</label>
+           <input class="span3" type="number" id="inputMinDepth" ng-model="filter.minDepth" placeholder="minDepth" required min="0">
+           <span class="add-on"> metres</span>
+       </div>
+       <div style="margin-left: 320px;" class="controls">
+       <label class="control-label" for="inputEmail">Max Depth</label>
+           <input class="span3" type="number" id="inputMaxDepth" ng-model="filter.maxDepth" placeholder="maxDepth" required min="0">
+           <span class="add-on"> metres</span>
+       </div>
+   </div>
+   <div style="width: 100%; overflow: hidden;">
+       <div style="width: 300px; float: left;" class="controls">
+       <label class="control-label" for="inputEmail">Min Time</label>
+           <input class="span3" type="number" id="inputMinTime" ng-model="filter.minTime" placeholder="minTime" required min="0">
+           <span class="add-on"> metres</span>
+       </div>
+       <div style="margin-left: 320px;" class="controls">
+       <label class="control-label" for="inputEmail">Max Time</label>
+           <input class="span3" type="number" id="inputMaxTime" ng-model="filter.maxTime" placeholder="maxTime" required min="0">
+           <span class="add-on"> minutes</span>
+       </div>
+   </div>
+   
+   <div style="width: 100%; overflow: hidden;">
+	   <div style="width: 300px; float: left;" class="controls">
+	        <label class="control-label" for="inputEmail">Diver Name</label>
+	            <input class="span3" type="text" id="inputDiver" list="diversList" ng-model="filter.diverName" placeholder="Diver" required min="0">
+	   </div>
+	   <div style="margin-left: 320px;" class="controls">
+            <label class="control-label" for="inputEmail">Location</label>
+                <input class="span3" type="text" id="inputLocation" list="locsList" ng-model="filter.location" placeholder="Location" required min="0">
+       </div>
+   </div>
+   
+   <button class="btn btn-success" ng-click="searchFilteredDives(filter)">Search</button>
+
+<h3>List of Filtered Dives</h3>
 <div class="alert alert-info" ng-show="dives.length == 0">
     No dives found
 </div>
@@ -11,31 +79,44 @@
         <tr>
 <!--             <th style="text-align: center; width: 25px;">Id</th> -->
             <th style="text-align: center;">Name</th>
-            <th style="text-align: center;">Depth</th>
-                        
-            <th style="text-align: center;">location</th>
+            <th style="text-align: center;">Depth</th>                        
             <th style="text-align: center;">diver</th>
             <th style="text-align: center;">buddy</th>
             <th style="text-align: center;">minutes</th>
             <th style="text-align: center;">airTemp</th>
             <th style="text-align: center;">waterTemp</th>
             
+            <th style="text-align: center;">location</th>
             <th style="text-align: center;">Image</th>
+            <th style="text-align: center;">Language</th>
+            <th style="text-align: center;">External Link</th>
+            <th style="text-align: center;">Photo Collection</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="dive in dives | orderBy:predicate">
 <!--             <td style="text-align: center;">{{dive.idString}}</td> -->
             <td>{{dive.name}}</td>
-            <td>{{dive.depth}}</td>
-            <td>{{dive.location}}</td>
+            <td>{{dive.depth}}</td>   
             <td>{{dive.diver}}</td>
             <td>{{dive.buddy}}</td>
             <td>{{dive.minutes}} minutes</td>
             <td>{{dive.airTemp}} °C</td>
             <td>{{dive.waterTemp}} °C</td>
+            
+            <td>{{dive.location}}</td>
             <td><img ng-src="{{dive.locationImage}}" class="phone"> </td>
+            <td>{{dive.locationLang}}</td>
+            <td><a href={{dive.locationExtLink}} target="_blank">External Link</a> </td>
+            <td><a href={{dive.locationPhotoCollection}} target="_blank"> Photos</a></td>
 
         </tr>
     </tbody>
 </table>
+
+<datalist id="diversList">
+   <option  data-ng-repeat="diver in divers" value="{{diver}}">
+</datalist>
+<datalist id="locsList">
+    <option  data-ng-repeat="location in locations" value="{{location}}">
+</datalist>

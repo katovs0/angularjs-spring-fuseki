@@ -109,5 +109,5 @@ var DiveEntryController = function($scope, $http) {
     $scope.fetchDiversList();
     
 
-    $scope.predicate = 'id';
+    $scope.predicate = 'name';
 }

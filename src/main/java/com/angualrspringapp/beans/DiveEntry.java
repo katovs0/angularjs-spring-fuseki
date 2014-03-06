@@ -19,10 +19,16 @@ public class DiveEntry {
 	private Boolean valid;
 	
 	private String locationImage;
+	private String locationLang;
+	private String locationExtLink;
+	private String locationPhotoCollection;			
 	
 	public DiveEntry() { }
 	
-	public DiveEntry(long id, String name, Integer depth, String location, String diver, String buddy, Integer minutes, Double airTemp, Double waterTemp, Boolean valid, String locationImage) {
+	public DiveEntry(long id, String name, Integer depth, String location, 
+					 String diver, String buddy, Integer minutes, Double airTemp, 
+					 Double waterTemp, Boolean valid, 
+					 String locationImage, String locationLang, String locationExtLink, String locationPhotoCollection) {
 		this.setId(id);
 		this.setName(name);
 		this.setLocation(location);
@@ -39,6 +45,9 @@ public class DiveEntry {
 		this.setValid(valid);
 		
 		this.setLocationImage(locationImage);
+		this.setLocationLang(locationLang);
+		this.setLocationExtLink(locationExtLink);
+		this.setLocationPhotoCollection(locationPhotoCollection);
 	}
 
 	public Long getId() {
@@ -137,8 +146,32 @@ public class DiveEntry {
 		this.locationImage = locationImage;
 	}
 
+	public String getLocationLang() {
+		return locationLang;
+	}
+
+	public void setLocationLang(String locationLang) {
+		this.locationLang = locationLang;
+	}
+
+	public String getLocationExtLink() {
+		return locationExtLink;
+	}
+
+	public void setLocationExtLink(String locationExtLink) {
+		this.locationExtLink = locationExtLink;
+	}
+
 	public String toString() {
 		   return ReflectionToStringBuilder.toString(this);
 		}
+
+	public String getLocationPhotoCollection() {
+		return locationPhotoCollection;
+	}
+
+	public void setLocationPhotoCollection(String locationPhotoCollection) {
+		this.locationPhotoCollection = locationPhotoCollection;
+	}
 
 }

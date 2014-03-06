@@ -6,80 +6,48 @@
  */
 var FilteredDiveEntryController = function($scope, $http) {
     $scope.dive = {};
+    $scope.filter = {};
+    $scope.params = {};
     $scope.editMode = false;
 
     $scope.fetchDivesList = function() {
-        $http.get('dives/diveslist.json').success(function(diveList){
+        $http.get('divesfilter/divesfilterlist.json').success(function(diveList){
             $scope.dives = diveList;
         });
     }
-
-    $scope.addNewDive = function(dive) {
+    
+    $scope.searchFilteredDives = function(filter) {
         $scope.resetError();
 
-        $http.post('dives/addDive', dive).success(function() {
-            $scope.fetchDivesList();
-            $scope.dive.name = '';
-            $scope.dive.depth = '';
 
-        	$scope.dive.location = '';
-        	$scope.dive.diver = '';
-        	$scope.dive.buddy = '';
-        	$scope.dive.minutes = 0;
-        	$scope.dive.airTemp = 0.0;
-        	$scope.dive.waterTemp = 0.0;
+        $http.get('divesfilter/searchDivesList.json', 
+        			{params: {minAirTemp:$scope.filter.minAirTemp,maxAirTemp:$scope.filter.maxAirTemp,
+                			minWaterTemp:$scope.filter.minWaterTemp,maxWaterTemp:$scope.filter.maxWaterTemp,                			
+                			minDepth:$scope.filter.minDepth,maxDepth:$scope.filter.maxDepth,
+                			minTime:$scope.filter.minTime,maxTime:$scope.filter.maxTime,
 
-            $scope.dive.valid = false;
+                			diverName:$scope.filter.diverName,
+                			location:$scope.filter.location}} ).success(function(diveList) {
+        	$scope.dives = diveList;
+        	
+//            $scope.filter.minAirTemp = 0.0;
+//            $scope.filter.maxAirTemp = 0.0;
+
         }).error(function() {
-            $scope.setError('Could not add a new dive');
+            $scope.setError('Could search for filtered dives');
         });
     }
-
-    $scope.updateDive = function(dive) {
-        $scope.resetError();
-
-        $http.put('dives/updateDive', dive).success(function() {
-            $scope.fetchDivesList();
-            $scope.dive.name = '';
-            $scope.dive.depth = '';
-            $scope.dive.valid = false;
-            $scope.editMode = false;
-        }).error(function() {
-            $scope.setError('Could not update the dive');
+    
+     $scope.fetchDiversList = function() {
+        $http.get('divers/diverlist.json').success(function(diverList){
+            $scope.divers = diverList;
         });
     }
-
-    $scope.editDive = function(dive) {
-        $scope.resetError();
-        $scope.dive = dive;
-        $scope.editMode = true;
-    }
-
-    $scope.removeDive = function(id) {
-        $scope.resetError();
-
-        $http.delete('dives/removeDive/' + id).success(function() {
-            $scope.fetchDivesList();
-        }).error(function() {
-            $scope.setError('Could not remove dive');
+     
+    $scope.fetchLocsList = function() {
+        $http.get('dives/locationsList.json').success(function(locsList){
+            $scope.locations = locsList;
         });
-    }
-
-    $scope.removeAllDives = function() {
-        $scope.resetError();
-
-        $http.delete('dives/removeAllDives').success(function() {
-            $scope.fetchDivesList();
-        }).error(function() {
-            $scope.setError('Could not remove all dives');
-        });
-
-    };
-
-    $scope.resetDiveForm = function() {
-        $scope.resetError();
-        $scope.dive = {};
-        $scope.editMode = false;
     }
 
     $scope.resetError = function() {
@@ -91,10 +59,10 @@ var FilteredDiveEntryController = function($scope, $http) {
         $scope.error = true;
         $scope.errorMessage = message;
     }
-
-
-    $scope.fetchDivesList();
+    
+    $scope.fetchDiversList();
+    $scope.fetchLocsList();
     
 
-    $scope.predicate = 'id';
+    $scope.predicate = 'name';
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.angualrspringapp.beans.DiveEntry;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.sparql.engine.binding.BindingMap;
 
 public class DiveEntryResultSetMapper {
@@ -127,6 +128,21 @@ public class DiveEntryResultSetMapper {
 				 dive.setLocationImage(binding.get("img").toString());
 			 else 
 				 dive.setLocationImage("http://collider.com/wp-content/uploads/friends-tv-show.jpg"); 
+			 
+			//?lang ?extLink ?photoCollection
+			 RDFNode lang;
+			 if((lang = binding.get("lang1")) != null)
+				 dive.setLocationLang(lang.isLiteral() ? lang.asLiteral().toString() : lang.toString());
+			 else 
+				 dive.setLocationLang("UNKNOWN"); 
+			 if(binding.get("extLink") != null)
+				 dive.setLocationExtLink(binding.get("extLink").toString());
+			 else if(dive.getLocationExtLink() == null)
+				 dive.setLocationExtLink("NONE"); 
+			 if(binding.get("photoCollection") != null)
+				 dive.setLocationPhotoCollection(binding.get("photoCollection").toString());
+			 else if (dive.getLocationPhotoCollection() == null)
+				 dive.setLocationPhotoCollection("NONE"); 
 		}
 		
 		LOG.info(dive.toString());
