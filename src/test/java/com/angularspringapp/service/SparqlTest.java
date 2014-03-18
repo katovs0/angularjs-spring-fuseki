@@ -1,6 +1,6 @@
-package com.angualrspringapp.service;
+package com.angularspringapp.service;
 
-import com.angualrspringapp.external.DbPediaUtil;
+import com.angualrspringapp.external.DbPediaAdapter;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -21,7 +21,7 @@ public class SparqlTest {
 		
 //		jenaToDBPedia();
 		
-		DbPediaUtil.importCoutriesList();
+		DbPediaAdapter.importCoutriesList();
 		
 	}
 

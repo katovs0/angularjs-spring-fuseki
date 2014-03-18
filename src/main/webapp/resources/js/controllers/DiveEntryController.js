@@ -108,6 +108,32 @@ var DiveEntryController = function($scope, $http) {
     $scope.fetchLocsList();
     $scope.fetchDiversList();
     
+    $scope.generateDivesList = function (locsList, divers) {
+    	
+    	 for (var i=0;i<locsList.length && i<=55;i++)
+    	{
+    		var dive={};
+    		dive.name = 'Generated dive ' + i;
+            dive.depth = i;
+        	dive.location = locsList[i];
+        	if(i<divers.length){
+        		dive.diver = divers[i];
+        	} else {
+        		dive.diver = divers[Math.floor(Math.random()*11)];
+        	}
+        	
+        	
+        	
+        	dive.buddy = 'buddy' + i;
+        	dive.minutes = i * Math.floor(Math.random()*11) / 2;
+        	dive.airTemp =  1.10 * Math.floor(Math.random()*11);
+        	dive.waterTemp =  1.9 * Math.floor(Math.random()*11);
+        	
+        	$scope.addNewDive(dive);
+    	}
+    }
+    
+    
 
     $scope.predicate = 'name';
 }

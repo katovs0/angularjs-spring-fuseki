@@ -12,7 +12,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.Model;
 
-public class DbPediaUtil {
+public class DbPediaAdapter {
 	
 	public static void importCoutriesList () {
 		String LOCATION = "http://dbpedia.org/ontology/location";
@@ -26,7 +26,24 @@ public class DbPediaUtil {
         		+ "OPTIONAL {?country rdfs:label ?country_name Filter(lang(?country_name) = 'en')} ."
         		+ "OPTIONAL {?country prop:populationEstimate ?population} . }";
         
-    	
+        String sparqlQueryString2 = "PREFIX dbprop: <http://dbpedia.org/property/> "
+					        	  + "PREFIX prop: <http://dbpedia.org/property/>"
+					        	  + "PREFIX type: <http://dbpedia.org/class/yago/> "
+					        	  + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+					        	  + "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>"
+					        	  + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>       "
+
+        		+ "SELECT DISTINCT ?country_name ?country "
+        		+ "where {"
+        		+ "?country rdf:type dbpedia-owl:Country;"
+        			+ "dbprop:commonName ?country_name ."
+        		+ "OPTIONAL {?country dbprop:yearEnd ?yearEnd}"
+        		+ "FILTER (!bound(?yearEnd))"
+        		+ "MINUS { ?country a type:LandlockedCountries } ."
+        		+ "OPTIONAL {?country rdfs:label ?country_name Filter(lang(?country_name) = 'en')} ."
+        		+ "OPTIONAL {?country prop:populationEstimate ?population} . "
+        		+ "}";
+        
     	DatasetGraphAccessorHTTP updater = new DatasetGraphAccessorHTTP(REMOTE_URL);
     	DatasetAdapter adapter = new DatasetAdapter (updater);
 //    	Graph defaultGraph;
@@ -39,17 +56,17 @@ public class DbPediaUtil {
 
 
 
-	      Query query = QueryFactory.create(sparqlQueryString1);
+	      Query query = QueryFactory.create(sparqlQueryString2);
 	      QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
 	
 	      ResultSet results = qexec.execSelect();
 //	        	      ResultSetFormatter.out(System.out, results, query);
 	      
 	      Model m = ResultSetFormatter.toModel(results);
-
-	     qexec.close() ;
 	     
 	     adapter.add(m);
+	     
+	     qexec.close() ;
 	}
 	
 	

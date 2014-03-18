@@ -20,35 +20,35 @@ public class LocationsResultSetMapper {
 	public static LocationsResultSetMapper getInstance() {
         return INSTANCE;
     }
-	public DiveEntry mapDiveEntry(String id, ResultSet rs) {
-		LOG.info("Mapping a DiveEntry...");
-		DiveEntry dive = new DiveEntry();
-		
-		dive.setIdString(id);
-		
-		while(rs.hasNext()){
-
-			 QuerySolution binding = rs.nextSolution();                     
-//			 System.out.println(binding.get("p"));
-//			 System.out.println(binding.get("?p"));
-//			 System.out.println(binding.toString());
-//			 
-			 if(binding.get("p").toString().contains("diver"))
-				 dive.setDiver(binding.get("o").asLiteral().getString());
-			 if(binding.get("p").toString().contains("maxdeep"))
-				 dive.setDepth(binding.get("o").asLiteral().getInt());
-			 if(binding.get("p").toString().contains("name"))
-				 dive.setName(binding.get("o").asLiteral().getString());
-			 if(binding.get("p").toString().contains("role"))
-				 dive.setBuddy(binding.get("o").asLiteral().getString());
-			 if(binding.get("p").toString().contains("location"))
-				 dive.setLocation(binding.get("o").asLiteral().getString());
-		}
-		
-		LOG.info(dive.toString());
-		return dive;
-		
-	}
+//	public DiveEntry mapDiveEntry(String id, ResultSet rs) {
+//		LOG.info("Mapping a DiveEntry...");
+//		DiveEntry dive = new DiveEntry();
+//		
+//		dive.setIdString(id);
+//		
+//		while(rs.hasNext()){
+//
+//			 QuerySolution binding = rs.nextSolution();                     
+////			 System.out.println(binding.get("p"));
+////			 System.out.println(binding.get("?p"));
+////			 System.out.println(binding.toString());
+////			 
+//			 if(binding.get("p").toString().contains("diver"))
+//				 dive.setDiver(binding.get("o").asLiteral().getString());
+//			 if(binding.get("p").toString().contains("maxdeep"))
+//				 dive.setDepth(binding.get("o").asLiteral().getInt());
+//			 if(binding.get("p").toString().contains("name"))
+//				 dive.setName(binding.get("o").asLiteral().getString());
+//			 if(binding.get("p").toString().contains("role"))
+//				 dive.setBuddy(binding.get("o").asLiteral().getString());
+//			 if(binding.get("p").toString().contains("location"))
+//				 dive.setLocation(binding.get("o").asLiteral().getString());
+//		}
+//		
+//		LOG.info(dive.toString());
+//		return dive;
+//		
+//	}
 
 
 	public List<String> mapStringLocationsList(ResultSet rs) {

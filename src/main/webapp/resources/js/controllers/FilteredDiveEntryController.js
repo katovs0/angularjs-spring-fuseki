@@ -18,6 +18,7 @@ var FilteredDiveEntryController = function($scope, $http) {
     
     $scope.searchFilteredDives = function(filter) {
         $scope.resetError();
+        $scope.dives = {};
 
 
         $http.get('divesfilter/searchDivesList.json', 

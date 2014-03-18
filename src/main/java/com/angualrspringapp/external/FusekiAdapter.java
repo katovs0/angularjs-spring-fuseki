@@ -122,9 +122,11 @@ public class FusekiAdapter {
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(RDF_STORE + "/query", query);
 		
 		ResultSet results = qexec.execSelect();
-		qexec.close() ;
 		
 		diveIds =  diveEntryMapper.mapDiveIdsList(results);
+		
+		//Close after the full set of dives is retrieved
+		qexec.close() ;
 		
 		for(String id : diveIds) {
 			divesList.add(getDiveById(id));
@@ -478,10 +480,21 @@ public class FusekiAdapter {
 			sparqlQuery.append("?s scuba:diver ?diverName . ");
 			sparqlQuery.append("?s dbpedia-owl:location ?location . ");
 //			sparqlQuery.append("Filter ( ");
-				if(filter.getMinAirTemp() != null && filter.getMaxAirTemp() != null) sparqlQuery.append("FILTER ( ?airTemp > " + filter.getMinAirTemp() + " && ?airTemp <= " + filter.getMaxAirTemp() + " )");
-				if(filter.getMinWaterTemp() != null && filter.getMaxWaterTemp() != null) sparqlQuery.append("FILTER ( ?waterTemp > " + filter.getMinWaterTemp() + " && ?waterTemp <= " + filter.getMaxWaterTemp() + " )");
-				if(filter.getMinDepth() != null && filter.getMaxDepth() != null) sparqlQuery.append("FILTER ( ?depth > " + filter.getMinDepth() + " && ?depth <= " + filter.getMaxDepth() + " )");
-				if(filter.getMinTime() != null && filter.getMaxTime() != null) sparqlQuery.append("FILTER ( ?time > " + filter.getMinTime() + " && ?time <= " + filter.getMaxTime() + " )");
+				if(filter.getMinAirTemp() != null && filter.getMaxAirTemp() != null) sparqlQuery.append("FILTER ( ?airTemp >= " + filter.getMinAirTemp() + " && ?airTemp <= " + filter.getMaxAirTemp() + " )");
+				else if(filter.getMinAirTemp() != null) sparqlQuery.append("FILTER ( ?airTemp >= " + filter.getMinAirTemp() + " )");
+				else if (filter.getMaxAirTemp() != null) sparqlQuery.append("FILTER ( ?airTemp <= " + filter.getMaxAirTemp() + " )");
+				
+				if(filter.getMinWaterTemp() != null && filter.getMaxWaterTemp() != null) sparqlQuery.append("FILTER ( ?waterTemp >= " + filter.getMinWaterTemp() + " && ?waterTemp <= " + filter.getMaxWaterTemp() + " )");
+				else if(filter.getMinWaterTemp() != null) sparqlQuery.append("FILTER ( ?waterTemp >= " + filter.getMinWaterTemp() + " )");
+				else if (filter.getMaxWaterTemp() != null) sparqlQuery.append("FILTER ( ?waterTemp <= " + filter.getMaxWaterTemp() + " )");
+				
+				if(filter.getMinDepth() != null && filter.getMaxDepth() != null) sparqlQuery.append("FILTER ( ?depth >= " + filter.getMinDepth() + " && ?depth <= " + filter.getMaxDepth() + " )");
+				else if(filter.getMinDepth() != null) sparqlQuery.append("FILTER ( ?depth >= " + filter.getMinDepth() + " )");
+				else if(filter.getMaxDepth() != null) sparqlQuery.append("FILTER ( ?depth <= " + filter.getMaxDepth() + " )");
+				
+				if(filter.getMinTime() != null && filter.getMaxTime() != null) sparqlQuery.append("FILTER ( ?time >= " + filter.getMinTime() + " && ?time <= " + filter.getMaxTime() + " )");
+				else if(filter.getMinTime() != null) sparqlQuery.append("FILTER ( ?time >= " + filter.getMinTime() + " )");
+				else if(filter.getMaxTime() != null) sparqlQuery.append("FILTER ( ?time <= " + filter.getMaxTime() + " )");
 				
 				if(filter.getDiverName()!=null && !filter.getDiverName().isEmpty()) sparqlQuery.append(" FILTER (?diverName = \"" + filter.getDiverName() + "\" )");
 				if(filter.getLocation()!=null && !filter.getLocation().isEmpty()) sparqlQuery.append(" FILTER (?location = \"" + filter.getLocation() + "\" )");
