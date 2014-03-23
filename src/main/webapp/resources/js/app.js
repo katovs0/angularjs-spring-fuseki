@@ -1,8 +1,8 @@
 'use strict';
 
-var AngularSpringApp = {};
+var SimpleDiveLog = {};
 
-var App = angular.module('AngularSpringApp', ['AngularSpringApp.filters', 'AngularSpringApp.services', 'AngularSpringApp.directives']);
+var App = angular.module('SimpleDiveLog', ['SimpleDiveLog.filters', 'SimpleDiveLog.services', 'SimpleDiveLog.directives']);
 
 // Declare app level module which depends on filters, and services
 App.config(['$routeProvider', function ($routeProvider) {

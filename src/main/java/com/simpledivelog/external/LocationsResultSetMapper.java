@@ -1,4 +1,4 @@
-package com.angualrspringapp.external;
+package com.simpledivelog.external;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.angualrspringapp.beans.DiveEntry;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
+import com.simpledivelog.beans.DiveEntry;
 
 public class LocationsResultSetMapper {
 	

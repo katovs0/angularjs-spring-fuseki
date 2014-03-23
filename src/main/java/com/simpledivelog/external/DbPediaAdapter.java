@@ -1,4 +1,4 @@
-package com.angualrspringapp.external;
+package com.simpledivelog.external;
 
 import org.apache.jena.web.DatasetAdapter;
 import org.apache.jena.web.DatasetGraphAccessorHTTP;

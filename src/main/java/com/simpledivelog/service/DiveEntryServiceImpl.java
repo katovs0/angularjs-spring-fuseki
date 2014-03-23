@@ -1,4 +1,4 @@
-package com.angualrspringapp.service;
+package com.simpledivelog.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.beans.SearchFilter;
-import com.angualrspringapp.external.FusekiAdapter;
+import com.simpledivelog.beans.DiveEntry;
+import com.simpledivelog.beans.SearchFilter;
+import com.simpledivelog.external.FusekiAdapter;
 
 @Service("diveEntryService")
 public class DiveEntryServiceImpl implements DiveEntryService {

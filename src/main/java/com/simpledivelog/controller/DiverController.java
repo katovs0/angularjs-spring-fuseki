@@ -1,4 +1,4 @@
-package com.angualrspringapp.controller;
+package com.simpledivelog.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.angualrspringapp.service.DiverService;
+import com.simpledivelog.service.DiverService;
 
 @Controller
 @RequestMapping("/divers")

@@ -1,4 +1,4 @@
-package com.angularspringapp.external;
+package com.simpledivelog.external;
 
 import static org.junit.Assert.*;
 
@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.external.DiveEntryResultSetMapper;
 import com.hp.hpl.jena.query.ResultSet;
 import com.mockrunner.mock.jdbc.MockResultSet;
+import com.simpledivelog.beans.DiveEntry;
+import com.simpledivelog.external.DiveEntryResultSetMapper;
 
 
 //@RunWith(SpringJUnit4ClassRunner.class)

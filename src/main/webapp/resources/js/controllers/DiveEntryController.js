@@ -110,7 +110,7 @@ var DiveEntryController = function($scope, $http) {
     
     $scope.generateDivesList = function (locsList, divers) {
     	
-    	 for (var i=0;i<locsList.length && i<=55;i++)
+    	 for (var i=0;i<locsList.length && i<=15;i++)
     	{
     		var dive={};
     		dive.name = 'Generated dive ' + i;

@@ -1,4 +1,4 @@
-package com.angualrspringapp.beans;
+package com.simpledivelog.beans;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 

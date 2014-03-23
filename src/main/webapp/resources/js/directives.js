@@ -2,7 +2,7 @@
 
 /* Directives */
 
-var AppDirectives = angular.module('AngularSpringApp.directives', []);
+var AppDirectives = angular.module('SimpleDiveLog.directives', []);
 
 AppDirectives.directive('appVersion', ['version', function (version) {
     return function (scope, elm, attrs) {

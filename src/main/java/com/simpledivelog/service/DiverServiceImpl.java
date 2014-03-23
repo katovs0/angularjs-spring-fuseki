@@ -1,11 +1,11 @@
-package com.angualrspringapp.service;
+package com.simpledivelog.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.angualrspringapp.external.FusekiAdapter;
+import com.simpledivelog.external.FusekiAdapter;
 
 @Service("diverService")
 public class DiverServiceImpl implements DiverService {

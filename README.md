@@ -1,16 +1,26 @@
-spring-mvc-angularjs
+angular-spring-fuseki
 ====================
 
-A simple application to demonstrate how to configure angularjs with Spring MVC
+A simple 'Dive Logging' web application that integrates between AngularJS, Spring MVC, and Fuseki Server
 
-The application demonstrates how to configure Spring MVC with AngularJS and Velocity.
+The application supports creating and manipulating of divers lists, creating and editing of dive entries, and filtering on the dive entries' properties. 
+The filtered entries then are displayed with enrichment information retrieved from external Linked data sources such as DBPedia.
 
-It uses the AngularJS-Seed with some modifications to allow Spring MVC load the HTML. Also integrated Velocity in case it is needed to pass some values from the spring mvc controller into the partials or index.html file.
 
-I also included the bootstrap library for a better UI.
+Then CHECKOUT the Fuseki Server:
+
+git clone https://github.com/katovs0/jena-fuseki.git
+
+RUN Fuseki Server:
+
+fuseki-server --update --desc tdb.ttl /ds
+
+CHECKOUT the project:
+
+git clone https://github.com/katovs0/angularjs-spring-fuseki.git
 
 RUN: 
 
 mvn tomcat:run
 
-Then open the URL: http://localhost:8080/AngularSpringApp
+Then open the URL: http://localhost:8080/SimpleDiveLog

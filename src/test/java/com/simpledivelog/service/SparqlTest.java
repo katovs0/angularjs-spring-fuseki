@@ -1,6 +1,5 @@
-package com.angularspringapp.service;
+package com.simpledivelog.service;
 
-import com.angualrspringapp.external.DbPediaAdapter;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -12,6 +11,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.simpledivelog.external.DbPediaAdapter;
 
 public class SparqlTest {
 	

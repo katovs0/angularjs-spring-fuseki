@@ -1,4 +1,4 @@
-package com.angualrspringapp.service;
+package com.simpledivelog.service;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
-package com.angualrspringapp.external;
+package com.simpledivelog.external;
 
 import java.util.List;
 
-import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.beans.SearchFilter;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.simpledivelog.beans.DiveEntry;
+import com.simpledivelog.beans.SearchFilter;
 
 public interface ExternalSourceAdapter {
 	

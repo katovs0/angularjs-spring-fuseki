@@ -1,4 +1,4 @@
-package com.angualrspringapp.external;
+package com.simpledivelog.external;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -9,8 +9,6 @@ import org.apache.jena.web.DatasetAdapter;
 import org.apache.jena.web.DatasetGraphAccessorHTTP;
 import org.apache.log4j.Logger;
 
-import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.beans.SearchFilter;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -24,6 +22,8 @@ import com.hp.hpl.jena.update.UpdateExecutionFactory;
 import com.hp.hpl.jena.update.UpdateFactory;
 import com.hp.hpl.jena.update.UpdateProcessor;
 import com.hp.hpl.jena.update.UpdateRequest;
+import com.simpledivelog.beans.DiveEntry;
+import com.simpledivelog.beans.SearchFilter;
 
 public class FusekiAdapter {
 	private static Logger LOG = Logger.getLogger(FusekiAdapter.class);

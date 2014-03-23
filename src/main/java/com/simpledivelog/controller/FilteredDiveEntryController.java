@@ -1,4 +1,4 @@
-package com.angualrspringapp.controller;
+package com.simpledivelog.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.beans.SearchFilter;
-import com.angualrspringapp.service.DiveEntryService;
+import com.simpledivelog.beans.DiveEntry;
+import com.simpledivelog.beans.SearchFilter;
+import com.simpledivelog.service.DiveEntryService;
 
 @Controller
 @RequestMapping("/divesfilter")

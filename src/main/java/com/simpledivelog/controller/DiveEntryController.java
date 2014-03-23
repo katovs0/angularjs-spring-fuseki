@@ -1,4 +1,4 @@
-package com.angualrspringapp.controller;
+package com.simpledivelog.controller;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.angualrspringapp.beans.DiveEntry;
-import com.angualrspringapp.service.DiveEntryService;
-import com.angualrspringapp.service.DiverServiceImpl;
+import com.simpledivelog.beans.DiveEntry;
+import com.simpledivelog.service.DiveEntryService;
+import com.simpledivelog.service.DiverServiceImpl;
 
 @Controller
 @RequestMapping("/dives")
